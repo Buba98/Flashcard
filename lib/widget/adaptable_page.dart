@@ -10,6 +10,7 @@ class AdaptablePage extends StatelessWidget {
     required this.content,
     required this.onExpand,
     required this.title,
+    this.actions,
   });
 
   final bool expanded;
@@ -17,6 +18,7 @@ class AdaptablePage extends StatelessWidget {
   final Widget content;
   final Function() onExpand;
   final String title;
+  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class AdaptablePage extends StatelessWidget {
             content: content,
             onExpand: onExpand,
             title: title,
+            actions: actions,
           )
         : MobilePage(
             expanded: expanded,
@@ -34,6 +37,7 @@ class AdaptablePage extends StatelessWidget {
             content: content,
             onExpand: onExpand,
             title: title,
+            actions: actions,
           );
   }
 }
@@ -46,6 +50,7 @@ class DesktopPage extends StatelessWidget {
     required this.content,
     required this.onExpand,
     required this.title,
+    this.actions,
   });
 
   final bool expanded;
@@ -53,6 +58,7 @@ class DesktopPage extends StatelessWidget {
   final Widget content;
   final Function() onExpand;
   final String title;
+  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +96,7 @@ class DesktopPage extends StatelessWidget {
             child: Scaffold(
               appBar: AppBar(
                 title: Text(title),
+                actions: actions,
               ),
               body: content,
             ),
@@ -108,6 +115,7 @@ class MobilePage extends StatelessWidget {
     required this.content,
     required this.onExpand,
     required this.title,
+    this.actions,
   });
 
   final bool expanded;
@@ -115,12 +123,14 @@ class MobilePage extends StatelessWidget {
   final Widget content;
   final Function() onExpand;
   final String title;
+  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
+        actions: actions,
         leading: AdaptableButton(
           onPressed: onExpand,
           title: expanded ? 'Collapse' : 'Expand',

@@ -61,7 +61,12 @@ class DeckSelection extends StatelessWidget {
                   icon: const Icon(Icons.edit_outlined),
                   onPressed: () =>
                       context.read<SubjectBloc>().add(SelectDeck(deck)),
-                )
+                ),
+                const SizedBox(width: 16.0),
+                IconButton(
+                  icon: const Icon(Icons.delete_outlined),
+                  onPressed: () => onDeleteDeck(context, deck),
+                ),
               ],
             ),
           ),
@@ -73,6 +78,34 @@ class DeckSelection extends StatelessWidget {
           title: const Text('Add deck'),
         )
       ],
+    );
+  }
+
+  void onDeleteDeck(BuildContext context, Deck deck) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Delete deck'),
+        content: const Text('Are you sure you want to delete this deck?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              context.read<SubjectBloc>().add(
+                    DeleteDeck(
+                      deck: deck,
+                    ),
+                  );
+
+              Navigator.pop(context, 'OK');
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
     );
   }
 
