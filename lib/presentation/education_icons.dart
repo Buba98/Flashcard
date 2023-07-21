@@ -31,15 +31,15 @@ class EducationIcons {
       IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData biology =
       IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData book_apple =
+  static const IconData bookApple =
       IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData book_pen =
+  static const IconData bookPen =
       IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData boy_graduation =
+  static const IconData boyGraduation =
       IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData boy_student =
+  static const IconData boyStudent =
       IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData boy_study =
+  static const IconData boyStudy =
       IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData calculator =
       IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -51,33 +51,33 @@ class EducationIcons {
       IconData(0xe80d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData compass =
       IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData deskchair =
+  static const IconData deskChair =
       IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData discussion_class =
+  static const IconData discussionClass =
       IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData energy_equivalency =
+  static const IconData energyEquivalency =
       IconData(0xe811, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData female_teacher =
+  static const IconData femaleTeacher =
       IconData(0xe812, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData geology =
       IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData geometric =
       IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData girl_graduation =
+  static const IconData girlGraduation =
       IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData girl_student =
+  static const IconData girlStudent =
       IconData(0xe816, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData girl_study =
+  static const IconData girlStudy =
       IconData(0xe817, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData graduation_cap =
+  static const IconData graduationCap =
       IconData(0xe818, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData language =
       IconData(0xe819, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData library_icon =
+  static const IconData libraryIcon =
       IconData(0xe81a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData locker =
       IconData(0xe81b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData male_teacher =
+  static const IconData maleTeacher =
       IconData(0xe81c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData math =
       IconData(0xe81d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -91,9 +91,9 @@ class EducationIcons {
       IconData(0xe821, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData numeracy =
       IconData(0xe822, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData online_learning =
+  static const IconData onlineLearning =
       IconData(0xe823, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData open_book =
+  static const IconData openBook =
       IconData(0xe824, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData pdf =
       IconData(0xe825, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -101,17 +101,17 @@ class EducationIcons {
       IconData(0xe826, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData school =
       IconData(0xe827, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData school_bus =
+  static const IconData schoolBus =
       IconData(0xe828, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData sport =
       IconData(0xe829, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData square_root =
+  static const IconData squareRoot =
       IconData(0xe82a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData student_question =
+  static const IconData studentQuestion =
       IconData(0xe82b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData study_lamp =
+  static const IconData studyLamp =
       IconData(0xe82c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData teacher_desk =
+  static const IconData teacherDesk =
       IconData(0xe82d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData teaching =
       IconData(0xe82e, fontFamily: _kFontFam, fontPackage: _kFontPkg);

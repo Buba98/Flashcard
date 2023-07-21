@@ -1,5 +1,4 @@
 import 'package:flashcard/bloc/subject_bloc.dart';
-import 'package:flashcard/bloc/subjects_bloc.dart';
 import 'package:flashcard/pages/home_page/home_content/home_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,36 +20,32 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SubjectsBloc, SubjectsState>(
-      builder: (BuildContext context, SubjectsState subjectsState) {
-        return BlocBuilder<SubjectBloc, SubjectState>(
-            builder: (BuildContext context, SubjectState subjectState) {
-          return AdaptablePage(
-            expanded: expanded,
-            onExpand: onExpand,
-            drawer: SubjectSelection(
-              subjects: subjectsState.subjects,
-              expanded: expanded,
+    return BlocBuilder<SubjectBloc, SubjectState>(
+        builder: (BuildContext context, SubjectState subjectState) {
+      return AdaptablePage(
+        expanded: expanded,
+        onExpand: onExpand,
+        drawer: SubjectSelection(
+          subjects: subjectState.subjects,
+          expanded: expanded,
+        ),
+        content: const HomeContent(),
+        title: subjectState.subject == null
+            ? 'Select subject'
+            : '${subjectState.subject!.name}${subjectState.deck == null ? '' : ' - ${subjectState.deck!.name}'}',
+        actions: [
+          if (subjectState.subject != null)
+            IntrinsicWidth(
+              child: AdaptableButton(
+                onPressed: () => onDeleteSubject(subjectState.subject!),
+                title: 'Delete subject',
+                icon: Icons.delete_outline,
+                expanded: false,
+              ),
             ),
-            content: const HomeContent(),
-            title: subjectState.subject == null
-                ? 'Select subject'
-                : '${subjectState.subject!.name}${subjectState.deck == null ? '' : ' - ${subjectState.deck!.name}'}',
-            actions: [
-              if (subjectState.subject != null)
-                IntrinsicWidth(
-                  child: AdaptableButton(
-                    onPressed: () => onDeleteSubject(subjectState.subject!),
-                    title: 'Delete subject',
-                    icon: Icons.delete_outline,
-                    expanded: false,
-                  ),
-                ),
-            ],
-          );
-        });
-      },
-    );
+        ],
+      );
+    });
   }
 
   void onExpand() => setState(() => expanded = !expanded);

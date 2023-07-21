@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../bloc/subject_bloc.dart';
 import '../../../model/deck.dart';
-import '../../../model/flashcard.dart';
-import '../../../widget/adaptable_card.dart';
+import '../../../widget/adaptable_card/adaptable_card.dart';
+import '../../../widget/auto_save_text_editing_controller.dart';
 
 class DeckModify extends StatelessWidget {
   const DeckModify({
@@ -19,17 +18,20 @@ class DeckModify extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        for (Flashcard flashcard in deck.flashcards) ...[
+        for (int i = 0; i < deck.flashcards.length; i++) ...[
           AdaptableCard(
-            questionController: TextEditingController(text: flashcard.question),
-            answerController: TextEditingController(text: flashcard.answer),
+            index: i,
+            autoSaveTextEditingController: AutoSaveTextEditingController(
+              flashcard: deck.flashcards[i],
+              subjectBloc: context.read<SubjectBloc>(),
+            ),
           ),
           const SizedBox(height: 16.0),
         ],
         ListTile(
           leading: const Icon(Icons.add),
           title: const Text('Create new flashcard'),
-          onTap: () => context.read<SubjectBloc>().add(AddFlashCard()),
+          onTap: () => context.read<SubjectBloc>().add(AddFlashcard()),
         ),
       ],
     );

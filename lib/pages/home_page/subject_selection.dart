@@ -1,10 +1,10 @@
-import 'package:flashcard/bloc/subjects_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/subject_bloc.dart';
 import '../../model/subject.dart';
 import '../../presentation/education_icons.dart';
+import '../../service/local_repository_service.dart';
 import '../../widget/adaptable_button.dart';
 
 class SubjectSelection extends StatelessWidget {
@@ -38,6 +38,18 @@ class SubjectSelection extends StatelessWidget {
           title: 'Add subject',
           expanded: expanded,
         ),
+        AdaptableButton(
+          onPressed: () => LocalRepositoryService.debug(),
+          icon: Icons.info_outline,
+          title: 'Debug',
+          expanded: expanded,
+        ),
+        AdaptableButton(
+          onPressed: () => LocalRepositoryService.clear(),
+          icon: Icons.remove_outlined,
+          title: 'Debug',
+          expanded: expanded,
+        ),
       ],
     );
   }
@@ -59,10 +71,10 @@ class SubjectSelection extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              context.read<SubjectsBloc>().add(
+              context.read<SubjectBloc>().add(
                     AddSubject(
                       name: textEditingController.text,
-                      icon: EducationIcons.open_book,
+                      icon: EducationIcons.openBook,
                     ),
                   );
 

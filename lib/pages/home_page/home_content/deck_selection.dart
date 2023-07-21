@@ -103,7 +103,7 @@ class DeckSelection extends StatelessWidget {
               context.read<SubjectBloc>().add(
                     AddDeck(
                       name: textEditingController.text,
-                      icon: EducationIcons.book_pen,
+                      icon: EducationIcons.bookPen,
                     ),
                   );
 
