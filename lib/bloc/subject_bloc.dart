@@ -3,10 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../model/deck.dart';
+import '../model/flashcard.dart';
 import '../model/subject.dart';
 
 abstract class SubjectEvent {}
 
+/// ADD
 class AddDeck extends SubjectEvent {
   final String name;
   final IconData icon;
@@ -17,6 +19,17 @@ class AddDeck extends SubjectEvent {
   });
 }
 
+class AddFlashCard extends SubjectEvent {
+  final String question;
+  final String answer;
+
+  AddFlashCard({
+    this.question = '',
+    this.answer = '',
+  });
+}
+
+/// DELETE
 class DeleteDeck extends SubjectEvent {
   final Deck? deck;
 
@@ -33,6 +46,7 @@ class DeleteSubject extends SubjectEvent {
   });
 }
 
+/// SELECT
 class SelectSubject extends SubjectEvent {
   final Subject? subject;
 
@@ -62,6 +76,7 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
     on<SelectDeck>(_onSelectDeck);
     on<DeleteDeck>(_onDeleteDeck);
     on<DeleteSubject>(_onDeleteSubject);
+    on<AddFlashCard>(_onAddFlashCard);
   }
 
   _onAddDeck(AddDeck event, Emitter<SubjectState> emit) async {
@@ -130,5 +145,24 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
     }
 
     emit(SubjectState());
+  }
+
+  _onAddFlashCard(AddFlashCard event, Emitter<SubjectState> emit) async {
+    if (state.deck == null) {
+      return;
+    }
+
+    Flashcard flashcard = await LocalRepositoryService().addNewFlashcard(
+      deck: state.deck!,
+      question: event.question,
+      answer: event.answer,
+    );
+
+    Deck deck = state.deck!..flashcards.add(flashcard);
+
+    emit(SubjectState(
+      subject: state.subject,
+      deck: deck,
+    ));
   }
 }

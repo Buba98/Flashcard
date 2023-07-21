@@ -8,6 +8,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/deck.dart';
 
+/// The entry __SUBJECTS__ contains a list of all the subjects
+/// The entry _<subject.id> contains a list of all the decks in that subject
+/// The entry *<deck.id> contains a list of all the flashcards in that deck
 class LocalRepositoryService {
   final String _subjectsEntry = '__SUBJECTS__';
 
@@ -185,8 +188,6 @@ class LocalRepositoryService {
     required Deck deck,
   }) async {
     assert(deck.id != null);
-    assert(((await _sharedPreferences).getStringList('*${deck.id}') ?? [])
-        .contains(deck.id));
 
     List<String>? flashcardIDs =
         (await _sharedPreferences).getStringList('*${deck.id}') ?? [];

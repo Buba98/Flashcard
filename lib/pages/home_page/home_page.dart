@@ -1,6 +1,6 @@
 import 'package:flashcard/bloc/subject_bloc.dart';
 import 'package:flashcard/bloc/subjects_bloc.dart';
-import 'package:flashcard/pages/home_page/home_content.dart';
+import 'package:flashcard/pages/home_page/home_content/home_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

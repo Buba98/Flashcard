@@ -1,36 +1,10 @@
-import 'package:flashcard/presentation/education_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../bloc/subject_bloc.dart';
-import '../../model/deck.dart';
-import '../../model/subject.dart';
-import '../../widget/adaptable_card.dart';
-
-class HomeContent extends StatelessWidget {
-  const HomeContent({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SubjectBloc, SubjectState>(
-        builder: (BuildContext context, SubjectState subjectState) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: subjectState.subject == null
-            ? const Center(
-                child: Text('Select a subject first'),
-              )
-            : subjectState.deck == null
-                ? DeckSelection(
-                    subject: subjectState.subject!,
-                  )
-                : const DeckModify(),
-      );
-    });
-  }
-}
+import '../../../bloc/subject_bloc.dart';
+import '../../../model/deck.dart';
+import '../../../model/subject.dart';
+import '../../../presentation/education_icons.dart';
 
 class DeckSelection extends StatelessWidget {
   const DeckSelection({
@@ -139,18 +113,6 @@ class DeckSelection extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class DeckModify extends StatelessWidget {
-  const DeckModify({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return AdaptableCard(
-      questionController: TextEditingController(),
-      answerController: TextEditingController(),
     );
   }
 }

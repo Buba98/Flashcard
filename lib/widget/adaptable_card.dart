@@ -12,40 +12,39 @@ class AdaptableCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 4.0,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-            return IntrinsicHeight(
-              child: constraints.maxWidth > 600
-                  ? Row(
-                      children: [
-                        Flexible(
-                          child: CardTextField.question(
-                            controller: questionController,
-                          ),
-                        ),
-                        const VerticalDivider(),
-                        Flexible(
-                          child: CardTextField.answer(
-                            controller: answerController,
-                          ),
-                        ),
-                      ],
-                    )
-                  : Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CardTextField.question(
+            return constraints.maxWidth > 600
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: CardTextField.question(
                           controller: questionController,
                         ),
-                        const Divider(),
-                        CardTextField.answer(
+                      ),
+                      const VerticalDivider(),
+                      Expanded(
+                        child: CardTextField.answer(
                           controller: answerController,
                         ),
-                      ],
-                    ),
-            );
+                      ),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      CardTextField.question(
+                        controller: questionController,
+                      ),
+                      const Divider(),
+                      CardTextField.answer(
+                        controller: answerController,
+                      ),
+                    ],
+                  );
           },
         ),
       ),
@@ -82,13 +81,17 @@ class CardTextField extends StatelessWidget {
         ),
         const SizedBox(width: 16.0),
         Expanded(
-          child: TextField(
-            decoration: InputDecoration.collapsed(
-              hintText: title,
-            ),
-            controller: controller,
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
+          child: Column(
+            children: [
+              TextField(
+                decoration: InputDecoration.collapsed(
+                  hintText: title,
+                ),
+                controller: controller,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+              ),
+            ],
           ),
         ),
       ],
