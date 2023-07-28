@@ -4,14 +4,14 @@ import '../exceptions/invalid_json.dart';
 import '../utils.dart';
 import 'deck.dart';
 
-class Subject {
-  late final String? id;
+class Subject implements Comparable<Subject> {
+  final String id;
   final String name;
   final List<Deck> decks;
   final IconData icon;
 
   Subject({
-    this.id,
+    required this.id,
     required this.name,
     required this.decks,
     required this.icon,
@@ -69,5 +69,15 @@ class Subject {
     data['name'] = name;
     data['icon'] = iconDataToJson(icon);
     return data;
+  }
+
+  @override
+  int compareTo(Subject other) {
+    return name.compareTo(other.name);
+  }
+
+  @override
+  String toString() {
+    return toJson().toString();
   }
 }

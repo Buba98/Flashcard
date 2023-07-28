@@ -21,11 +21,27 @@ class AdaptableCard extends StatelessWidget {
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '${index + 1}.',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+            ReorderableDragStartListener(
+              index: index,
+              child: Container(
+                color: Colors.transparent,
+                child: Column(
+                  children: [
+                    Text(
+                      '${index + 1}.',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8.0,
+                    ),
+                    const Icon(
+                      Icons.drag_handle,
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(width: 16.0),
@@ -38,22 +54,39 @@ class AdaptableCard extends StatelessWidget {
           ],
         );
       } else {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              '${index + 1}.',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+        return ReorderableDragStartListener(
+          index: index,
+          child: Container(
+            color: Colors.transparent,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${index + 1}.',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8.0,
+                    ),
+                    const Icon(
+                      Icons.drag_handle,
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 16.0),
+                _ActualCard(
+                  expanded: false,
+                  autoSaveTextEditingController: autoSaveTextEditingController,
+                ),
+              ],
             ),
-            const SizedBox(width: 16.0),
-            _ActualCard(
-              expanded: false,
-              autoSaveTextEditingController: autoSaveTextEditingController,
-            ),
-          ],
+          ),
         );
       }
     });

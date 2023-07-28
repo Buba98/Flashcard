@@ -2,22 +2,26 @@ import 'package:flashcard/exceptions/invalid_json.dart';
 
 /// Model class for Flashcard
 /// A flashcard is a question and answer pair
-class Flashcard {
-  final String? id;
+class Flashcard implements Comparable<Flashcard>{
+  final String id;
   final String question;
   final String answer;
+  final int index;
 
   Flashcard({
-    this.id,
+    required this.id,
     required this.question,
     required this.answer,
+    required this.index,
   });
 
-  static fromJson(Map<String, dynamic> json) {
+  static Flashcard fromJson(Map<String, dynamic> json) {
     if (json['question'] == null ||
         json['question'] is! String ||
         json['answer'] == null ||
-        json['answer'] is! String) {
+        json['answer'] is! String ||
+        json['index'] == null ||
+        json['index'] is! int) {
       throw InvalidJson(
           json,
           'Flashcard:{'
@@ -30,15 +34,8 @@ class Flashcard {
       id: json['id'],
       question: json['question'],
       answer: json['answer'],
+      index: json['index'],
     );
-  }
-
-  static Flashcard? fromJsonSafe(Map<String, dynamic> json) {
-    try {
-      return fromJson(json);
-    } on InvalidJson {
-      return null;
-    }
   }
 
   Map<String, dynamic> toJson() {
@@ -46,14 +43,21 @@ class Flashcard {
     data['id'] = id;
     data['question'] = question;
     data['answer'] = answer;
+    data['index'] = index;
     return data;
   }
 
   Map<String, dynamic> toJsonIdFriendly() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['question'] = question;
-    data['answer'] = answer;
-    return data;
+    return toJson();
+  }
+
+  @override
+  int compareTo(Flashcard other) {
+    return index.compareTo(other.index);
+  }
+
+  @override
+  String toString() {
+    return toJson().toString();
   }
 }

@@ -45,7 +45,7 @@ class SubjectSelection extends StatelessWidget {
           expanded: expanded,
         ),
         AdaptableButton(
-          onPressed: () => LocalRepositoryService.clear(),
+          onPressed: () => context.read<SubjectBloc>().add(DeleteAllSubjects()),
           icon: Icons.remove_outlined,
           title: 'Debug',
           expanded: expanded,

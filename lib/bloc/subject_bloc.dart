@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flashcard/service/local_repository_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,14 +20,26 @@ class _LoadLocal extends SubjectEvent {}
 class SaveFlashcard extends SubjectEvent {
   final Flashcard flashcard;
   final Completer? completer;
-  final String question;
-  final String answer;
+  final String? question;
+  final String? answer;
+  final int? index;
 
   SaveFlashcard({
     required this.flashcard,
     this.completer,
     required this.question,
     required this.answer,
+    this.index,
+  });
+}
+
+class ReorderFlashcard extends SubjectEvent {
+  final int newIndex;
+  final int oldIndex;
+
+  ReorderFlashcard({
+    required this.newIndex,
+    required this.oldIndex,
   });
 }
 
@@ -55,10 +68,12 @@ class AddDeck extends SubjectEvent {
 class AddFlashcard extends SubjectEvent {
   final String question;
   final String answer;
+  final int index;
 
   AddFlashcard({
     this.question = '',
     this.answer = '',
+    required this.index,
   });
 }
 
@@ -78,6 +93,8 @@ class DeleteSubject extends SubjectEvent {
     required this.subject,
   });
 }
+
+class DeleteAllSubjects extends SubjectEvent {}
 
 /// SELECT
 class SelectSubject extends SubjectEvent {
@@ -115,6 +132,8 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
     on<SaveFlashcard>(_onSaveFlashcard);
     on<AddSubject>(_onAddSubject);
     on<_LoadLocal>(_onLoadLocal);
+    on<DeleteAllSubjects>(_onDeleteAllSubject);
+    on<ReorderFlashcard>(_onReorderFlashcard);
 
     add(_LoadLocal());
   }
@@ -206,6 +225,7 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
       deck: state.deck!,
       question: event.question,
       answer: event.answer,
+      index: event.index,
     );
 
     state.deck!.flashcards.add(flashcard);
@@ -222,14 +242,11 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
       return;
     }
 
-    Flashcard flashcard = Flashcard(
-      id: event.flashcard.id,
+    Flashcard flashcard = await LocalRepositoryService.updateFlashcard(
+      flashcard: event.flashcard,
       question: event.question,
       answer: event.answer,
-    );
-
-    await LocalRepositoryService.updateFlashcard(
-      flashcard,
+      index: event.index,
     );
 
     for (int i = 0; i < state.deck!.flashcards.length; i++) {
@@ -261,6 +278,61 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
       deck: state.deck,
       subject: state.subject,
       subjects: subjects,
+    ));
+  }
+
+  _onDeleteAllSubject(DeleteAllSubjects event, Emitter<SubjectState> emit) {
+    LocalRepositoryService.clear();
+
+    emit(SubjectState(subjects: []));
+  }
+
+  _onReorderFlashcard(
+      ReorderFlashcard event, Emitter<SubjectState> emit) async {
+    if (state.deck == null || state.subject == null) {
+      return;
+    }
+
+    if (event.newIndex == event.oldIndex) {
+      return;
+    }
+
+    assert(
+        state.deck!.flashcards.length >= max(event.newIndex, event.oldIndex));
+
+    print('ReorderFlashcard: ${event.oldIndex} -> ${event.newIndex}');
+
+    Deck deck = state.deck!;
+
+    state.subject!.decks.remove(deck);
+    List<Flashcard> flashcards = [...deck.flashcards];
+
+    Flashcard flashcard = flashcards.removeAt(event.oldIndex);
+
+    flashcards.insert(event.newIndex, flashcard);
+
+    for (int i = min(event.newIndex, event.oldIndex);
+        i <= max(event.newIndex, event.oldIndex);
+        i++) {
+      flashcards[i] = await LocalRepositoryService.updateFlashcard(
+        flashcard: flashcards[i],
+        index: i,
+      );
+    }
+
+    deck = Deck(
+      id: deck.id,
+      name: deck.name,
+      icon: deck.icon,
+      flashcards: flashcards,
+    );
+
+    state.subject!.decks.add(deck);
+
+    emit(SubjectState(
+      deck: deck,
+      subject: state.subject,
+      subjects: state.subjects,
     ));
   }
 }

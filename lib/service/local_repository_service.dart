@@ -80,14 +80,13 @@ class LocalRepositoryService {
   /// REMOVE
 
   static Future<void> removeSubject(Subject subject) async {
-    assert(subject.id != null);
     assert((await getStringList(_subjectsEntry) ?? []).contains(subject.id));
 
     for (Deck deck in subject.decks) {
       await removeDeck(deck, subject);
     }
 
-    await remove('_${subject.id!}');
+    await remove('_${subject.id}');
 
     List<String> subjectIDs = await getStringList(_subjectsEntry) ?? [];
 
@@ -97,19 +96,17 @@ class LocalRepositoryService {
 
     await setStringList(_subjectsEntry, subjectIDs);
 
-    await remove(subject.id!);
+    await remove(subject.id);
   }
 
   static Future<void> removeDeck(Deck deck, Subject subject) async {
-    assert(deck.id != null);
-    assert(subject.id != null);
     assert((await getStringList(_subjectsEntry) ?? []).contains(subject.id));
 
     for (Flashcard flashcard in deck.flashcards) {
       await removeFlashcard(flashcard, deck);
     }
 
-    await remove('*${deck.id!}');
+    await remove('*${deck.id}');
 
     List<String> deckIDs = await getStringList('_${subject.id}') ?? [];
 
@@ -119,13 +116,10 @@ class LocalRepositoryService {
 
     await setStringList('_${subject.id}', deckIDs);
 
-    await remove(deck.id!);
+    await remove(deck.id);
   }
 
   static Future<void> removeFlashcard(Flashcard flashcard, Deck deck) async {
-    assert(flashcard.id != null);
-    assert(deck.id != null);
-
     List<String> flashcardIDs = await getStringList('*${deck.id}') ?? [];
 
     assert(flashcardIDs.contains(flashcard.id));
@@ -134,28 +128,69 @@ class LocalRepositoryService {
 
     await setStringList('*${deck.id}', flashcardIDs);
 
-    await remove(flashcard.id!);
+    await remove(flashcard.id);
   }
 
   /// UPDATES
-  static Future<void> updateSubject(Subject subject) async {
-    assert(subject.id != null);
-    assert((await getStringList(_subjectsEntry) ?? []).contains(subject.id));
+  static Future<Subject> updateSubject({
+    required Subject subject,
+    String? name,
+    IconData? icon,
+  }) async {
 
-    await setString(subject.id!, jsonEncode(subject.toJsonIdFriendly()));
+    assert(name != null || icon != null);
+
+    Subject updatedSubject = Subject(
+      id: subject.id,
+      name: name ?? subject.name,
+      icon: icon ?? subject.icon,
+      decks: subject.decks,
+    );
+
+    await setString(subject.id, jsonEncode(updatedSubject.toJsonIdFriendly()));
+
+    return updatedSubject;
   }
 
-  static Future<void> updateDeck(Deck deck) async {
-    assert(deck.id != null);
+  static Future<Deck> updateDeck({
+    required Deck deck,
+    String? name,
+    IconData? icon,
+  }) async {
+    assert(name != null || icon != null);
 
-    await setString(deck.id!, jsonEncode(deck.toJsonIdFriendly()));
+    Deck updatedDeck = Deck(
+      id: deck.id,
+      name: name ?? deck.name,
+      icon: icon ?? deck.icon,
+      flashcards: deck.flashcards,
+    );
+
+    await setString(updatedDeck.id, jsonEncode(updatedDeck.toJsonIdFriendly()));
+
+    return updatedDeck;
   }
 
-  static Future<void> updateFlashcard(Flashcard flashcard) async {
+  static Future<Flashcard> updateFlashcard({
+    required Flashcard flashcard,
+    String? question,
+    String? answer,
+    int? index,
+  }) async {
+    assert(question != null || answer != null || index != null);
 
-    assert(flashcard.id != null);
+    Flashcard updatedFlashcard = Flashcard(
+        id: flashcard.id,
+        question: question ?? flashcard.question,
+        answer: answer ?? flashcard.answer,
+        index: index ?? flashcard.index);
 
-    await setString(flashcard.id!, jsonEncode(flashcard.toJsonIdFriendly()));
+    await setString(
+      updatedFlashcard.id,
+      jsonEncode(updatedFlashcard.toJsonIdFriendly()),
+    );
+
+    return updatedFlashcard;
   }
 
   /// ADD NEW
@@ -181,7 +216,7 @@ class LocalRepositoryService {
       icon: icon,
     );
 
-    await setString(subject.id!, jsonEncode(subject.toJsonIdFriendly()));
+    await setString(subject.id, jsonEncode(subject.toJsonIdFriendly()));
 
     return subject;
   }
@@ -191,7 +226,6 @@ class LocalRepositoryService {
     required IconData icon,
     required Subject subject,
   }) async {
-    assert(subject.id != null);
     assert((await getStringList(_subjectsEntry) ?? []).contains(subject.id));
 
     List<String>? deckIDs = await getStringList('_${subject.id}') ?? [];
@@ -212,7 +246,7 @@ class LocalRepositoryService {
       flashcards: [],
     );
 
-    await setString(deck.id!, jsonEncode(deck.toJsonIdFriendly()));
+    await setString(deck.id, jsonEncode(deck.toJsonIdFriendly()));
 
     return deck;
   }
@@ -220,10 +254,9 @@ class LocalRepositoryService {
   static Future<Flashcard> addNewFlashcard({
     required String question,
     required String answer,
+    required int index,
     required Deck deck,
   }) async {
-    assert(deck.id != null);
-
     List<String>? flashcardIDs = await getStringList('*${deck.id}') ?? [];
 
     String id;
@@ -239,9 +272,10 @@ class LocalRepositoryService {
       id: id,
       question: question,
       answer: answer,
+      index: index,
     );
 
-    await setString(flashcard.id!, jsonEncode(flashcard.toJson()));
+    await setString(flashcard.id, jsonEncode(flashcard.toJson()));
 
     return flashcard;
   }

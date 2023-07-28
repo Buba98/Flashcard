@@ -7,14 +7,14 @@ import 'flashcard.dart';
 /// Model class for Deck
 /// A deck is a collection of flashcards
 /// It should contain all the flashcards for a particular topic of a subject
-class Deck {
-  final String? id;
+class Deck implements Comparable<Deck> {
+  final String id;
   final List<Flashcard> flashcards;
   final String name;
   final IconData icon;
 
   Deck({
-    this.id,
+    required this.id,
     required this.name,
     required this.icon,
     required this.flashcards,
@@ -70,5 +70,15 @@ class Deck {
     data['name'] = name;
     data['icon'] = iconDataToJson(icon);
     return data;
+  }
+
+  @override
+  int compareTo(Deck other) {
+    return name.compareTo(other.name);
+  }
+
+  @override
+  String toString() {
+    return toJson().toString();
   }
 }
