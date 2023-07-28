@@ -32,8 +32,8 @@ class SubjectSelection extends StatelessWidget {
             expanded: expanded,
             selected: context.read<SubjectBloc>().state.subject == subject,
           ),
-          const Divider(),
         ],
+        const Divider(),
         AdaptableButton(
           onPressed: () => onAddSubject(context),
           icon: Icons.add,
