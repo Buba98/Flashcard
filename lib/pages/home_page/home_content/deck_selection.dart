@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 import '../../../bloc/subject_bloc.dart';
 import '../../../model/deck.dart';
 import '../../../model/subject.dart';
 import '../../../presentation/education_icons.dart';
+import '../../../widget/adaptable_button.dart';
 
 class DeckSelection extends StatelessWidget {
   const DeckSelection({
@@ -88,31 +90,68 @@ class DeckSelection extends StatelessWidget {
 
     showDialog<String>(
       context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text('Create new deck'),
-        content: TextField(
-          controller: textEditingController,
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              context.read<SubjectBloc>().add(
-                    AddDeck(
-                      name: textEditingController.text,
-                      icon: EducationIcons.bookPen,
-                    ),
-                  );
+      builder: (BuildContext context) {
+        IconData icon = EducationIcons.openBook;
 
-              Navigator.pop(context, 'OK');
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
+        return StatefulBuilder(
+          builder: (BuildContext context, Function setState) {
+            return AlertDialog(
+              title: const Text('Create new deck'),
+              content: Flex(
+                direction: Axis.vertical,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AdaptableButton(
+                    onPressed: () async {
+                      IconData? newIcon =
+                          await FlutterIconPicker.showIconPicker(context,
+                              iconPackModes: [IconPack.custom],
+                              customIconPack: EducationIcons.icons);
+
+                      if (newIcon != null) {
+                        setState(() {
+                          icon = newIcon;
+                        });
+                      }
+                    },
+                    icon: icon,
+                    expanded: true,
+                    title: 'Select icon',
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  TextField(
+                    decoration: const InputDecoration(
+                      hintText: 'Enter the name of the deck',
+                    ),
+                    controller: textEditingController,
+                  ),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    context.read<SubjectBloc>().add(
+                          AddDeck(
+                            name: textEditingController.text,
+                            icon: icon,
+                          ),
+                        );
+
+                    Navigator.pop(context, 'OK');
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }

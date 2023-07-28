@@ -140,7 +140,12 @@ class MobilePage extends StatelessWidget {
           expanded: false,
         ),
       ),
-      body: expanded ? drawer : content,
+      body: expanded
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: drawer,
+            )
+          : content,
     );
   }
 }
