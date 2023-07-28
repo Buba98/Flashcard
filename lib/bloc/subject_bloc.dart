@@ -161,7 +161,6 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
   }
 
   _onSelectSubject(SelectSubject event, Emitter<SubjectState> emit) {
-
     debugPrint('SelectSubject');
 
     emit(SubjectState(

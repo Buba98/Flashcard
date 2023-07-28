@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,18 +39,22 @@ class SubjectSelection extends StatelessWidget {
           title: 'Add subject',
           expanded: expanded,
         ),
-        AdaptableButton(
-          onPressed: () => LocalRepositoryService.debug(),
-          icon: Icons.info_outline,
-          title: 'Debug',
-          expanded: expanded,
-        ),
-        AdaptableButton(
-          onPressed: () => context.read<SubjectBloc>().add(DeleteAllSubjects()),
-          icon: Icons.remove_outlined,
-          title: 'Debug',
-          expanded: expanded,
-        ),
+        if (kDebugMode) ...[
+          const Divider(),
+          AdaptableButton(
+            onPressed: () => LocalRepositoryService.debug(),
+            icon: Icons.info_outline,
+            title: 'Debug info',
+            expanded: expanded,
+          ),
+          AdaptableButton(
+            onPressed: () =>
+                context.read<SubjectBloc>().add(DeleteAllSubjects()),
+            icon: Icons.remove_outlined,
+            title: 'Delete all subjects',
+            expanded: expanded,
+          ),
+        ]
       ],
     );
   }
