@@ -143,6 +143,8 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
       return;
     }
 
+    debugPrint('AddDeck');
+
     Deck deck = await LocalRepositoryService.addNewDeck(
       subject: state.subject!,
       name: event.name,
@@ -159,6 +161,9 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
   }
 
   _onSelectSubject(SelectSubject event, Emitter<SubjectState> emit) {
+
+    debugPrint('SelectSubject');
+
     emit(SubjectState(
       subjects: state.subjects,
       subject: event.subject,
@@ -169,6 +174,8 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
     if (state.subject == null) {
       return;
     }
+
+    debugPrint('SelectDeck');
 
     assert(state.subject!.decks.contains(event.deck));
 
@@ -183,6 +190,8 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
     if (state.subject == null) {
       return;
     }
+
+    debugPrint('DeleteDeck');
 
     if (event.deck != null) {
       await LocalRepositoryService.removeDeck(event.deck!, state.subject!);
@@ -201,6 +210,8 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
   }
 
   _onDeleteSubject(DeleteSubject event, Emitter<SubjectState> emit) async {
+    debugPrint('DeleteSubject');
+
     await LocalRepositoryService.removeSubject(event.subject);
 
     List<Subject> subjects = state.subjects;
@@ -220,6 +231,8 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
     if (state.deck == null) {
       return;
     }
+
+    debugPrint('AddFlashcard');
 
     Flashcard flashcard = await LocalRepositoryService.addNewFlashcard(
       deck: state.deck!,
@@ -242,6 +255,8 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
       return;
     }
 
+    debugPrint('SaveFlashcard');
+
     Flashcard flashcard = await LocalRepositoryService.updateFlashcard(
       flashcard: event.flashcard,
       question: event.question,
@@ -259,6 +274,8 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
   }
 
   _onLoadLocal(_LoadLocal event, Emitter<SubjectState> emit) async {
+    debugPrint('_LoadLocal');
+
     List<Subject> subjects = await LocalRepositoryService.getSubjects();
 
     emit(SubjectState(
@@ -267,6 +284,8 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
   }
 
   _onAddSubject(AddSubject event, Emitter<SubjectState> emit) async {
+    debugPrint('AddSubject');
+
     Subject subject = await LocalRepositoryService.addNewSubject(
       name: event.name,
       icon: event.icon,
@@ -300,7 +319,7 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
     assert(
         state.deck!.flashcards.length >= max(event.newIndex, event.oldIndex));
 
-    print('ReorderFlashcard: ${event.oldIndex} -> ${event.newIndex}');
+    debugPrint('ReorderFlashcard');
 
     Deck deck = state.deck!;
 
