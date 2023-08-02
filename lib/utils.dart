@@ -23,11 +23,11 @@ IconData iconDataFromJson(Map<String, dynamic> json) {
 }
 
 String generateRandomString({int length = 8}) {
-  final random = Random();
-  const availableChars =
+  final Random random = Random();
+  const String availableChars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-  final randomString = List.generate(length,
-          (index) => availableChars[random.nextInt(availableChars.length)]).join();
+  final String randomString = List.generate(length,
+      (index) => availableChars[random.nextInt(availableChars.length)]).join();
 
   return randomString;
 }

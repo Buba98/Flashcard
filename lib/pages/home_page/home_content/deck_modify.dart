@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../bloc/subject_bloc.dart';
 import '../../../model/deck.dart';
-import '../../../widget/adaptable_card/adaptable_card.dart';
-import '../../../widget/auto_save_text_editing_controller.dart';
+import '../../../widget/adaptable_card/adaptable_card_holder.dart';
+import '../../../widget/flashcard_text_editing_controller/auto_save_text_editing_controller.dart';
 
 class DeckModify extends StatelessWidget {
   const DeckModify({
@@ -33,9 +33,9 @@ class DeckModify extends StatelessWidget {
           Padding(
             key: ValueKey(flashcard.id),
             padding: const EdgeInsets.only(bottom: 16.0),
-            child: AdaptableCard(
+            child: AdaptableCardHolder(
               index: flashcard.index,
-              autoSaveTextEditingController: AutoSaveTextEditingController(
+              flashcardTextEditingController: AutoSaveTextEditingController(
                 flashcard: flashcard,
                 subjectBloc: context.read<SubjectBloc>(),
               ),

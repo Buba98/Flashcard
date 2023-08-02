@@ -13,19 +13,20 @@ class HomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SubjectBloc, SubjectState>(
-        builder: (BuildContext context, SubjectState subjectState) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: subjectState.subject == null
-            ? const Center(
-                child: Text('Select a subject first'),
-              )
-            : subjectState.deck == null
-                ? DeckSelection(
-                    subject: subjectState.subject!,
-                  )
-                : DeckModify(deck: subjectState.deck!),
-      );
-    });
+      builder: (BuildContext context, SubjectState subjectState) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: subjectState.subject == null
+              ? const Center(
+                  child: Text('Select a subject first'),
+                )
+              : subjectState.deck == null
+                  ? DeckSelection(
+                      subject: subjectState.subject!,
+                    )
+                  : DeckModify(deck: subjectState.deck!),
+        );
+      },
+    );
   }
 }

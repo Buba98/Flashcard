@@ -1,21 +1,16 @@
 import 'dart:async';
 
 import 'package:flashcard/bloc/subject_bloc.dart';
-import 'package:flutter/cupertino.dart';
 
-import '../model/flashcard.dart';
+import 'flashcard_text_editing_controller.dart';
 
-class AutoSaveTextEditingController {
-  final TextEditingController questionController;
-  final TextEditingController answerController;
-  final Flashcard flashcard;
+class AutoSaveTextEditingController extends FlashcardTextEditingController {
   final SubjectBloc subjectBloc;
 
   AutoSaveTextEditingController({
-    required this.flashcard,
+    required super.flashcard,
     required this.subjectBloc,
-  })  : questionController = TextEditingController(text: flashcard.question),
-        answerController = TextEditingController(text: flashcard.answer) {
+  }) {
     questionController.addListener(_onEvent);
     answerController.addListener(_onEvent);
   }

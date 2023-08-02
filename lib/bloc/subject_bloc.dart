@@ -78,6 +78,15 @@ class AddFlashcard extends SubjectEvent {
 }
 
 /// DELETE
+
+class DeleteFlashcard extends SubjectEvent {
+  final int index;
+
+  DeleteFlashcard({
+    required this.index,
+  });
+}
+
 class DeleteDeck extends SubjectEvent {
   final Deck? deck;
 
@@ -134,6 +143,7 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
     on<_LoadLocal>(_onLoadLocal);
     on<DeleteAllSubjects>(_onDeleteAllSubject);
     on<ReorderFlashcard>(_onReorderFlashcard);
+    on<DeleteFlashcard>(_onDeleteFlashcard);
 
     add(_LoadLocal());
   }
@@ -332,6 +342,45 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
     for (int i = min(event.newIndex, event.oldIndex);
         i <= max(event.newIndex, event.oldIndex);
         i++) {
+      flashcards[i] = await LocalRepositoryService.updateFlashcard(
+        flashcard: flashcards[i],
+        index: i,
+      );
+    }
+
+    deck = Deck(
+      id: deck.id,
+      name: deck.name,
+      icon: deck.icon,
+      flashcards: flashcards,
+    );
+
+    state.subject!.decks.add(deck);
+
+    emit(SubjectState(
+      deck: deck,
+      subject: state.subject,
+      subjects: state.subjects,
+    ));
+  }
+
+  _onDeleteFlashcard(DeleteFlashcard event, Emitter<SubjectState> emit) async {
+    if (state.deck == null || state.subject == null) {
+      return;
+    }
+
+    debugPrint('DeleteFlashcard');
+
+    Deck deck = state.deck!;
+
+    state.subject!.decks.remove(deck);
+    List<Flashcard> flashcards = [...deck.flashcards];
+
+    flashcards.removeAt(event.index);
+    await LocalRepositoryService.removeFlashcard(
+        deck.flashcards[event.index], deck);
+
+    for (int i = event.index; i < flashcards.length; i++) {
       flashcards[i] = await LocalRepositoryService.updateFlashcard(
         flashcard: flashcards[i],
         index: i,

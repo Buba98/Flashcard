@@ -21,31 +21,32 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SubjectBloc, SubjectState>(
-        builder: (BuildContext context, SubjectState subjectState) {
-      return AdaptablePage(
-        expanded: expanded,
-        onExpand: onExpand,
-        drawer: SubjectSelection(
-          subjects: subjectState.subjects,
+      builder: (BuildContext context, SubjectState subjectState) {
+        return AdaptablePage(
           expanded: expanded,
-        ),
-        content: const HomeContent(),
-        title: subjectState.subject == null
-            ? 'Select subject'
-            : '${subjectState.subject!.name}${subjectState.deck == null ? '' : ' - ${subjectState.deck!.name}'}',
-        actions: [
-          if (subjectState.subject != null)
-            IntrinsicWidth(
-              child: AdaptableButton(
-                onPressed: () => onDeleteSubject(subjectState.subject!),
-                title: 'Delete subject',
-                icon: Icons.delete_outline,
-                expanded: false,
+          onExpand: onExpand,
+          drawer: SubjectSelection(
+            subjects: subjectState.subjects,
+            expanded: expanded,
+          ),
+          content: const HomeContent(),
+          title: subjectState.subject == null
+              ? 'Select subject'
+              : '${subjectState.subject!.name}${subjectState.deck == null ? '' : ' - ${subjectState.deck!.name}'}',
+          actions: [
+            if (subjectState.subject != null)
+              IntrinsicWidth(
+                child: AdaptableButton(
+                  onPressed: () => onDeleteSubject(subjectState.subject!),
+                  title: 'Delete subject',
+                  icon: Icons.delete_outline,
+                  expanded: false,
+                ),
               ),
-            ),
-        ],
-      );
-    });
+          ],
+        );
+      },
+    );
   }
 
   void onExpand() => setState(() => expanded = !expanded);

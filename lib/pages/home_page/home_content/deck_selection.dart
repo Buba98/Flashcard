@@ -7,6 +7,7 @@ import '../../../model/deck.dart';
 import '../../../model/subject.dart';
 import '../../../presentation/education_icons.dart';
 import '../../../widget/adaptable_button.dart';
+import '../../play_page/play_page.dart';
 
 class DeckSelection extends StatelessWidget {
   const DeckSelection({
@@ -29,7 +30,17 @@ class DeckSelection extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  onPressed: () => null,
+                  onPressed: deck.flashcards.isEmpty
+                      ? null
+                      : () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => PlayPage(
+                                subject: subject,
+                                deck: deck,
+                              ),
+                            ),
+                          ),
                   icon: const Icon(Icons.play_arrow_outlined),
                 ),
                 const SizedBox(width: 16.0),
