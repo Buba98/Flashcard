@@ -24,24 +24,30 @@ class PlayState {
   });
 }
 
-class Playing extends PlayState {
-  final Flashcard nextFlashcard;
+abstract class Initialized extends PlayState {
   final List<(bool?, Flashcard)> flashcards;
+
+  Initialized({
+    required this.flashcards,
+    required super.stopwatch,
+  });
+}
+
+class Playing extends Initialized {
+  final Flashcard nextFlashcard;
   final int index;
 
   Playing({
     required this.nextFlashcard,
-    required this.flashcards,
+    required super.flashcards,
     required this.index,
     required super.stopwatch,
   });
 }
 
-class Finished extends PlayState {
-  final List<(bool?, Flashcard)> flashcards;
-
+class Finished extends Initialized {
   Finished({
-    required this.flashcards,
+    required super.flashcards,
     required super.stopwatch,
   });
 }

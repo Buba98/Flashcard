@@ -42,7 +42,7 @@ class _PlayPageState extends State<PlayPage> {
           onHiddenAnswer: onHiddenAnswer,
         ),
         onExpand: onExpand,
-        title: 'title',
+        title: 'Play : ${widget.subject.name} - ${widget.deck.name}',
       ),
     );
   }

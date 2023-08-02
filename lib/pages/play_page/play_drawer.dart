@@ -20,7 +20,7 @@ class PlayDrawer extends StatelessWidget {
               Expanded(
                 child: ListView(
                   children: [
-                    if (state is Playing)
+                    if (state is Initialized)
                       for (final (bool?, Flashcard) element in state.flashcards)
                         IconButton(
                           onPressed: null,

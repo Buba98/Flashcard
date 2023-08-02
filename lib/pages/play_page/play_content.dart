@@ -1,3 +1,4 @@
+import 'package:flashcard/model/flashcard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -90,6 +91,57 @@ class _PlayContentState extends State<PlayContent> {
                   ],
                 ),
             ],
+          );
+        }
+        if (state is Finished) {
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Finished!',
+                  style: TextStyle(
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                Text(
+                  'Correct: ${state.flashcards.fold<int>(0, (previousValue, (
+                        bool?,
+                        Flashcard
+                      ) element) => element.$1 ?? false ? previousValue + 1 : previousValue)}',
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                Text(
+                  'Wrong: ${state.flashcards.fold<int>(0, (previousValue, (
+                        bool?,
+                        Flashcard
+                      ) element) => element.$1 ?? false ? previousValue : previousValue + 1)}',
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () => context.read<PlayBloc>().add(Play()),
+                  child: const Text(
+                    'Play again',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           );
         }
         return const SizedBox();
