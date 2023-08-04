@@ -11,9 +11,11 @@ class DeckModify extends StatelessWidget {
   const DeckModify({
     super.key,
     required this.deck,
+    required this.visualize,
   });
 
   final Deck deck;
+  final bool visualize;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class DeckModify extends StatelessWidget {
             key: ValueKey(flashcard.id),
             padding: const EdgeInsets.only(bottom: 16.0),
             child: AdaptableCardHolder(
+              visualize: visualize,
               index: flashcard.index,
               flashcardTextEditingController: AutoSaveTextEditingController(
                 flashcard: flashcard,

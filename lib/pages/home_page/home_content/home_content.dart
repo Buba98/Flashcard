@@ -24,7 +24,10 @@ class HomeContent extends StatelessWidget {
                   ? DeckSelection(
                       subject: subjectState.subject!,
                     )
-                  : DeckModify(deck: subjectState.deck!),
+                  : DeckModify(
+                      deck: subjectState.deck!,
+                      visualize: subjectState.visualize!,
+                    ),
         );
       },
     );

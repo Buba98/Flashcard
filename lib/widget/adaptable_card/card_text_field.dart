@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class CardTextField extends StatelessWidget {
   const CardTextField.answer({
@@ -32,6 +33,12 @@ class CardTextField extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
+        if (readOnly)
+          MarkdownBody(
+            data: controller.text,
+            selectable: true,
+          ),
+        if (!readOnly)
         TextField(
           readOnly: readOnly,
           decoration: InputDecoration.collapsed(

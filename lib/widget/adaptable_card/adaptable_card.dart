@@ -48,6 +48,7 @@ class AdaptableCard extends StatelessWidget {
               );
             } else {
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CardTextField.question(
                     readOnly: readOnly,

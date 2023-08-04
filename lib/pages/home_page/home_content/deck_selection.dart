@@ -30,6 +30,7 @@ class DeckSelection extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
+                  tooltip: 'Play',
                   onPressed: deck.flashcards.isEmpty
                       ? null
                       : () => Navigator.push(
@@ -45,12 +46,25 @@ class DeckSelection extends StatelessWidget {
                 ),
                 const SizedBox(width: 16.0),
                 IconButton(
-                  icon: const Icon(Icons.edit_outlined),
-                  onPressed: () =>
-                      context.read<SubjectBloc>().add(SelectDeck(deck)),
+                  tooltip: 'View',
+                  icon: const Icon(Icons.visibility_outlined),
+                  onPressed: () => context.read<SubjectBloc>().add(SelectDeck(
+                        deck,
+                        visualize: true,
+                      )),
                 ),
                 const SizedBox(width: 16.0),
                 IconButton(
+                  tooltip: 'Edit',
+                  icon: const Icon(Icons.edit_outlined),
+                  onPressed: () => context.read<SubjectBloc>().add(SelectDeck(
+                        deck,
+                        visualize: false,
+                      )),
+                ),
+                const SizedBox(width: 16.0),
+                IconButton(
+                  tooltip: 'Delete',
                   icon: const Icon(Icons.delete_outlined),
                   onPressed: () => onDeleteDeck(context, deck),
                 ),

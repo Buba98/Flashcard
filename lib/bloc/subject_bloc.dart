@@ -114,19 +114,22 @@ class SelectSubject extends SubjectEvent {
 
 class SelectDeck extends SubjectEvent {
   final Deck? deck;
+  final bool visualize;
 
-  SelectDeck(this.deck);
+  SelectDeck(this.deck, {this.visualize = false});
 }
 
 class SubjectState {
   final List<Subject> subjects;
   final Subject? subject;
   final Deck? deck;
+  final bool? visualize;
 
   SubjectState({
     required this.subjects,
     this.subject,
     this.deck,
+    this.visualize
   });
 }
 
@@ -192,6 +195,7 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
       subject: state.subject,
       deck: event.deck,
       subjects: state.subjects,
+      visualize: event.visualize,
     ));
   }
 
