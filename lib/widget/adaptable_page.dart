@@ -63,45 +63,47 @@ class DesktopPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
-        children: <Widget>[
-          SizedBox(
-            width: expanded ? 250 : 100,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  AdaptableButton(
-                    expanded: expanded,
-                    onPressed: onExpand,
-                    icon: expanded
-                        ? Icons.keyboard_double_arrow_left
-                        : Icons.keyboard_double_arrow_right,
-                    title: expanded ? 'Collapse' : 'Expand',
-                  ),
-                  const Divider(),
-                  Expanded(
-                    child: drawer,
-                  )
-                ],
+      body: SafeArea(
+        child: Row(
+          children: <Widget>[
+            SizedBox(
+              width: expanded ? 250 : 100,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    AdaptableButton(
+                      expanded: expanded,
+                      onPressed: onExpand,
+                      icon: expanded
+                          ? Icons.keyboard_double_arrow_left
+                          : Icons.keyboard_double_arrow_right,
+                      title: expanded ? 'Collapse' : 'Expand',
+                    ),
+                    const Divider(),
+                    Expanded(
+                      child: drawer,
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          const VerticalDivider(
-            thickness: 1,
-            width: 1,
-          ),
-          // This is the main content.
-          Expanded(
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text(title),
-                actions: actions,
-              ),
-              body: content,
+            const VerticalDivider(
+              thickness: 1,
+              width: 1,
             ),
-          )
-        ],
+            // This is the main content.
+            Expanded(
+              child: Scaffold(
+                appBar: AppBar(
+                  title: Text(title),
+                  actions: actions,
+                ),
+                body: content,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -129,7 +131,21 @@ class MobilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            if (Navigator.of(context).canPop()) ...[
+              AdaptableButton(
+                onPressed: () => Navigator.of(context).maybePop(),
+                title: 'Back',
+                icon: Icons.arrow_back,
+                expanded: false,
+              ),
+              const SizedBox(width: 8),
+            ],
+            Text(title),
+          ],
+        ),
         actions: actions,
         leading: AdaptableButton(
           onPressed: onExpand,

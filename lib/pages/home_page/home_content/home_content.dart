@@ -26,7 +26,7 @@ class HomeContent extends StatelessWidget {
                     )
                   : DeckModify(
                       deck: subjectState.deck!,
-                      visualize: subjectState.visualize!,
+                      visualize: subjectState.visualize ?? false,
                     ),
         );
       },

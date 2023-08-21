@@ -25,21 +25,34 @@ class AdaptableButton extends StatelessWidget {
     return SizedBox(
       height: 50,
       child: expanded
-          ? ListTile(
-              selectedTileColor: Colors.black12,
-              onTap: () => onPressed(),
-              leading: Icon(iconExpanded ?? icon),
-              title: Text(titleExpanded ?? title),
-              selected: selected,
-            )
-          : Tooltip(
-              message: title,
-              child: ListTile(
-                selectedTileColor: Colors.black12,
-                title: Icon(icon),
-                onTap: () => onPressed(),
-                selected: selected,
+          ? ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+                foregroundColor: Colors.black,
+                backgroundColor: selected ? Colors.black12 : Colors.transparent,
               ),
+              onPressed: () => onPressed(),
+              child: Row(
+                children: [
+                  Icon(iconExpanded ?? icon),
+                  const SizedBox(width: 8.0),
+                  Text(titleExpanded ?? title),
+                ],
+              ))
+          : IconButton(
+              style: IconButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+                backgroundColor: selected ? Colors.black12 : Colors.transparent,
+              ),
+              tooltip: title,
+              icon: Icon(icon),
+              onPressed: () => onPressed(),
+              // selected: selected,
             ),
     );
   }

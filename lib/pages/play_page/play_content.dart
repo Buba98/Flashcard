@@ -29,6 +29,7 @@ class _PlayContentState extends State<PlayContent> {
           builder: (BuildContext context, PlayState state) {
         if (state is Playing) {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
                 child: AdaptableCard(
